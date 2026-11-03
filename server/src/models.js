@@ -1,0 +1,5 @@
+const mongoose = require('mongoose');
+const userSchema = new mongoose.Schema({name:{type:String,required:true,trim:true},email:{type:String,required:true,unique:true,lowercase:true},passwordHash:{type:String,required:true},role:{type:String,enum:['user','admin'],default:'user'}},{timestamps:true});
+const colorSchema = new mongoose.Schema({name:{type:String,required:true},hex:{type:String,required:true,match:/^#[0-9A-Fa-f]{6}$/},brand:{type:String,default:'Custom'},finish:{type:String,default:'Matte'},category:{type:String,default:'General'}},{timestamps:true});
+const projectSchema = new mongoose.Schema({user:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},title:{type:String,default:'My room design'},imageUrl:{type:String,required:true},maskData:{type:String,default:''},color:{type:mongoose.Schema.Types.ObjectId,ref:'Color'},colorHex:{type:String,default:'#D8CDBB'},opacity:{type:Number,min:0,max:1,default:0.55},createdAt:{type:Date,default:Date.now}},{timestamps:true});
+module.exports={User:mongoose.model('User',userSchema),Color:mongoose.model('Color',colorSchema),Project:mongoose.model('Project',projectSchema)};
